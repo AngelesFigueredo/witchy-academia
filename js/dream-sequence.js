@@ -1,25 +1,41 @@
 class DreamSequence {
   constructor(ctx, canvasSize) {
     this.ctx = ctx;
-    this.canvasSize = canvasSize
-    this.backgroundInfo = [this.ctx, this.canvasSize];
-    this.dreamEnvironment = {};
+    this.canvasSize = canvasSize;
+    this.basicInformation = [this.ctx, this.canvasSize];
+    this.spaces = {};
+    this.playersHouse = undefined
     this.forest = undefined;
-    this.init()
-}
-init() {
+    this.init();
+  }
+  init() {
     this.forest = new Background(
-      ...this.backgroundInfo,
+      ...this.basicInformation,
       "img/forest/forest.png"
     );
-    this.dialog1()
+    this.introduction();
   }
-  dialog1(){
-    this.textTest = new Dialogue(this.ctx, forestText)
+  introduction() {
+    this.spaces.introduction = new Dialogue(this.ctx, introductionText, "click");
   }
-
-  draw() {
-    this.forest.drawBackground()
-    this.textTest.draw()
-  }
+ 
+  play(){
+    this.draw()
+    if (this.spaces.introduction) {
+        this.spaces.introduction.draw();
+        if (this.spaces.introduction.stopDialogue()){
+          delete this.spaces.introduction;
+          this.spaces.houseQuizz = new HouseQuizz(...this.basicInformation)}
+    }else if(this.spaces.houseQuizz){
+        this.spaces.houseQuizz.play()
+        if(this.spaces.houseQuizz.ended){
+          this.playersHouse = this.spaces.houseQuizz.decidePlayersHouse()
+          console.log(this.playersHouse)
+          delete this.spaces.houseQuizz;
+        }
+    }
+}
+draw() {
+      this.forest.drawBackground();
+    }
 }

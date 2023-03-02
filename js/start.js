@@ -51,7 +51,7 @@ class Start {
       () => {
         this.environments.dreamSequence = new DreamSequence(
           this.ctx,
-          this.canvasSize,
+          this.canvasSize
         );
         delete this.environments.start;
       },

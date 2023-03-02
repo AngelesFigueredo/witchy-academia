@@ -1,25 +1,33 @@
 class Dialogue {
-  constructor(ctx, text) {
+  // The eventType refers to what event will make the game diplay
+  // the next sentence of the dialogue
+  constructor(ctx, text, eventType) {
     this.text = text;
     this.ctx = ctx;
+    this.eventType = eventType;
     this.dialogueBoxInstance = undefined;
     this.count = 0;
     this.init();
-    this.stopDialogue = true
+    this.end = false;
   }
-
+  
   init() {
     this.listen();
     this.createDialogueBox();
   }
   listen() {
     document.addEventListener(
-      "click",
-      () => {
-        ++this.count;
-        console.log(this.count);
+      this.eventType,
+      e => {
+        if(this.eventType === "keydown"){
+          if(e.keyCode === keys.LEFT || e.keyCode === keys.RIGHT){
+            this.count < this.text.length  ? ++this.count : (this.end=this.stopDialogue());
+          }
+        }else{
+          this.count < this.text.length? ++this.count:(this.end = this.stopDialogue());
+        }
       },
-      { once: false} ////Aquí hay que ver cómo hacer para que se detenga el el event listener
+      { once: this.end}
     );
   }
   createDialogueBox() {
@@ -32,16 +40,19 @@ class Dialogue {
   }
   drawText() {
     this.ctx.font = "20px arial";
-    this.ctx.fillStyle = "white";
-    this.ctx.fillText(this.text[this.count], 150, 60);
+    this.ctx.fillStyle = "black";
+    this.ctx.fillText(this.text[this.count], 75, 60);
   }
   drawDialogueBox() {
     this.ctx.drawImage(
       this.dialogueBoxInstance,
-      10,
-      10,
-      550,
+      50,
+      15,
+      600,
       100
     );
+  }
+  stopDialogue(){
+    if(this.count === this.text.length) return true
   }
 }

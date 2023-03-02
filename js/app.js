@@ -1,13 +1,14 @@
 const witchyAcademia = {
   name: "Witchy Academia",
-  description: "This is a fantansy game with 6 levels",
+  description: "This is a fantansy game with 3 levels",
   version: "1.0.0",
   license: undefined,
   author: "Ángeles Figueredo",
   canvasTag: undefined,
   ctx: undefined,
-  display: "start",
   environments: {},
+  player: undefined,
+  
 
   canvasSize: {
     w: undefined,
@@ -18,6 +19,7 @@ const witchyAcademia = {
     this.createContext();
     this.setDimensions();
     this.createStart();
+    this.player = new Player()
     this.game();
   },
   createContext() {
@@ -39,14 +41,14 @@ const witchyAcademia = {
     }, 30);
   },
   createStart() {
-    this.environments.start = new Start(this.ctx, this.canvasSize, this.environments, this.clickCounter);
+    this.environments.start = new Start(this.ctx, this.canvasSize, this.environments);
   },
   drawAll() {
     if (this.environments.start) {
       this.environments.start.draw();
     } else if (this.environments.dreamSequence) {
-      this.environments.dreamSequence.draw()
-      
+      this.environments.dreamSequence.play()
+
     } else if (this.environments.welcome) {
       this.environments.welcome.draw();
     }

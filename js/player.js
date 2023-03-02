@@ -1,9 +1,7 @@
-const player = {
-    nickname : undefined,
-    house: undefined, 
-    skin: undefined, 
-    potions: [],
-    health: 100,
-
-
+class Player {
+  constructor() {
+    this.house = undefined;
+    this.skin = undefined;
+    this.health = 100;
+  }
 }
