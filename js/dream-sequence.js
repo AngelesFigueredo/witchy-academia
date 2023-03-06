@@ -1,11 +1,13 @@
 class DreamSequence {
-  constructor(ctx, canvasSize) {
+  constructor(ctx, canvasSize, enviroments) {
     this.ctx = ctx;
     this.canvasSize = canvasSize;
     this.basicInformation = [this.ctx, this.canvasSize];
-    this.spaces = {};
-    this.playersHouse = undefined
+    this.enviroments = enviroments;
+    this.scenario = {};
+    this.playersHouse = undefined;
     this.forest = undefined;
+    this.hasFinished = false;
     this.init();
   }
   init() {
@@ -16,26 +18,36 @@ class DreamSequence {
     this.introduction();
   }
   introduction() {
-    this.spaces.introduction = new Dialogue(this.ctx, introductionText, "click");
+    this.scenario.introduction = new Dialogue(
+      this.ctx,
+      introductionText,
+      "click"
+    );
   }
- 
-  play(){
-    this.draw()
-    if (this.spaces.introduction) {
-        this.spaces.introduction.draw();
-        if (this.spaces.introduction.stopDialogue()){
-          delete this.spaces.introduction;
-          this.spaces.houseQuizz = new HouseQuizz(...this.basicInformation)}
-    }else if(this.spaces.houseQuizz){
-        this.spaces.houseQuizz.play()
-        if(this.spaces.houseQuizz.ended){
-          this.playersHouse = this.spaces.houseQuizz.decidePlayersHouse()
-          console.log(this.playersHouse)
-          delete this.spaces.houseQuizz;
-        }
+
+  play() {
+    this.draw();
+    if (this.scenario.introduction) {
+      this.scenario.introduction.draw();
+      if (this.scenario.introduction.stopDialogue()) {
+        delete this.scenario.introduction;
+        this.scenario.houseQuizz = new HouseQuizz(...this.basicInformation);
+      }
+    } else if (this.scenario.houseQuizz) {
+      this.scenario.houseQuizz.play();
+      if (this.scenario.houseQuizz.ended) {
+        this.playersHouse = this.scenario.houseQuizz.decidePlayersHouse();
+        this.enviroments.welcome = new Welcome(
+          this.ctx,
+          this.canvasSize,
+          this.enviroments
+        );
+        delete this.scenario.houseQuizz;
+        delete this.enviroments.dreamSequence;
+      }
     }
-}
-draw() {
-      this.forest.drawBackground();
-    }
+  }
+  draw() {
+    this.forest.drawBackground();
+  }
 }

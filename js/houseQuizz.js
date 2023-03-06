@@ -5,6 +5,7 @@ class HouseQuizz {
     this.questionToDisplay = {};
     this.dialogue = undefined;
     this.count = 0;
+    this.playersHouse = undefined;
     this.direction = undefined;
     this.ended = false;
     this.house = {
@@ -26,8 +27,8 @@ class HouseQuizz {
     this.dialogue = new Dialogue(this.ctx, quizzQuestions, "keydown");
   }
   draw() {
-    this.dialogue.draw();
-    this.drawQuestions()
+    this.dialogue && this.dialogue.draw();
+    this.drawQuestions();
   }
   play() {
     this.draw();
@@ -44,7 +45,8 @@ class HouseQuizz {
           ++this.count;
         }
         this.examineHouse();
-      }, {once: this.ended}
+      },
+      { once: this.ended }
     );
   }
   addPointsTo(house1, house2) {
@@ -58,13 +60,20 @@ class HouseQuizz {
     return this.direction === "left";
   }
   decideHousePoints(
-    leftHouse = [this.house.air, this.house.water],
-    rightHouse = [this.house.fire, this.house.earth]
+    leftHouses = [this.house.air, this.house.water],
+    rightHouses = [this.house.fire, this.house.earth]
   ) {
-    this.goLeft() ? this.addPointsTo(...leftHouse) : null;
-    this.goRight() ? this.addPointsTo(...rightHouse) : null;
+    this.goLeft() && this.addPointsTo(...leftHouses);
+    this.goRight() && this.addPointsTo(...rightHouses);
     this.direction = undefined;
-    console.log(this.direction, this.housePoints);
+  }
+  decidePlayersHouse() {
+    const maxPoints = Math.max(...Object.values(this.housePoints));
+    const playersHouse = Object.keys(this.housePoints).find(
+      (house) => this.housePoints[house] === maxPoints
+    );
+    this.playersHouse = playersHouse;
+    return playersHouse;
   }
   examineHouse() {
     switch (this.count) {
@@ -85,44 +94,106 @@ class HouseQuizz {
           [this.house.earth, this.house.water]
         );
         break;
+      case 12:
+        this.decidePlayersHouse();
+        delete this.dialogue;
+        break;
       case 13:
-        this.ended = true
+        this.ended = true;
         break;
       default:
         this.decideHousePoints();
         break;
     }
   }
-  drawQuestions(){
+  drawQuestions() {
     switch (this.count) {
-      case 0:
-      case 1:
       case 2:
-        case 3:
-        this.drawQuestion1()
+        this.drawQuestion("q1");
+        break;
+      case 3:
+        this.drawQuestion("q2");
+        break;
+      case 4:
+        this.drawQuestion("q3");
+        break;
+      case 5:
+        this.drawQuestion("q4");
+        break;
+      case 6:
+        this.drawQuestion("q5");
+        break;
+      case 7:
+        this.drawQuestion("q6");
+        break;
+      case 8:
+        this.drawQuestion("q7");
+        break;
+      case 9:
+        this.drawQuestion("q8");
+        break;
+      case 10:
+        this.drawQuestion("q9");
+        break;
+      case 11:
+        this.drawQuestion("q10");
+        break;
+      case 12:
+        this.revealPlayersHouse();
         break;
     }
   }
-  decidePlayersHouse() {
-    const maxPoints = Math.max(...Object.values(this.housePoints));
-    const playersHouse = Object.keys(this.housePoints).find(
-      (house) => this.housePoints[house] === maxPoints
-    );
-    return playersHouse;
-  }
-  drawQuestion1(){
-    //¿Cuándo mueras cómo te gustaría ser recordado?
-    //Respuestas posibles 
-    //left Por todos los logros y las hazañas que conseguí 
-    // right por haber sido una persona buena y caritativa
-    this.heart = new Image();
-    this.heart.src = "img/house-quizz/heart.png";
+
+  drawRightAnswer(imagePath) {
+    const image = new Image();
+    image.src = imagePath;
     this.ctx.drawImage(
-      this.heart,
-      500,
-      200,
-      this.canvasSize.w/3,
-      this.canvasSize.h/3
+      image,
+      this.canvasSize.w * (1 / 2),
+      this.canvasSize.h * (2 / 8),
+      this.canvasSize.w * (1 / 2),
+      this.canvasSize.w * (1 / 3)
+    );
+  }
+  drawLeftAnswer(imagePath) {
+    const image = new Image();
+    image.src = imagePath;
+    this.ctx.drawImage(
+      image,
+      0,
+      this.canvasSize.h * (2 / 8),
+      this.canvasSize.w * (1 / 2),
+      this.canvasSize.w * (1 / 3)
+    );
+  }
+  drawQuestion(question) {
+    this.drawRightAnswer("img/house-quizz/" + question + "/right-answer.png");
+    this.drawLeftAnswer("img/house-quizz/" + question + "/left-answer.png");
+  }
+  revealPlayersHouse() {
+    let imagePath;
+    switch (this.playersHouse) {
+      case this.house.air:
+        imagePath = "img/house-quizz/end/air.png";
+        break;
+      case this.house.water:
+        imagePath = "img/house-quizz/end/water.png";
+        break;
+      case this.house.earth:
+        imagePath = "img/house-quizz/end/earth.png";
+        break;
+      case this.house.fire:
+        imagePath = "img/house-quizz/end/fire.png";
+        break;
+    }
+    const image = new Image();
+    image.src = imagePath;
+    this.ctx.drawImage(
+      image,
+      0,
+      0,
+      this.canvasSize.w,
+      this.canvasSize.h
     );
   }
 }

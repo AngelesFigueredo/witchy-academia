@@ -21,10 +21,10 @@ class Dialogue {
       e => {
         if(this.eventType === "keydown"){
           if(e.keyCode === keys.LEFT || e.keyCode === keys.RIGHT){
-            this.count < this.text.length  ? ++this.count : (this.end=this.stopDialogue());
+            this.count < this.text.length? ++this.count : (this.end=this.stopDialogue());
           }
         }else{
-          this.count < this.text.length? ++this.count:(this.end = this.stopDialogue());
+          this.count < this.text.length ? ++this.count:(this.end = this.stopDialogue());
         }
       },
       { once: this.end}
