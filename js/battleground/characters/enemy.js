@@ -14,7 +14,7 @@ class Enemy extends Character {
     this.spriteShow = "idle";
     this.spriteChange = 0;
     this.spriteFrames = 4;
-    this.livesCounter = 1;
+    this.livesCounter = 15;
     this.sprites = {
       pos: {
         x: this.pos.x + 10,
