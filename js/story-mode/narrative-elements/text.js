@@ -1,9 +1,11 @@
 keys= {
     LEFT: 37,
-    TOP: 38,
+    UP: 38,
     RIGHT: 39,
     DOWN:40,
-    ENTER: 32
+    ENTER: 32, 
+    SPACE: 32,
+    A: 65
   }
 introductionText = [
   "[HAZ CLICK PARA COMENZAR]",
@@ -38,27 +40,17 @@ welcomeText = [
   "Te estábamos esperando.",
   "Soy Daughter, la directora de Witchy Academia.",
   "Sé que esto te va a sonar muy loco.",
-  "...",
-  "De hecho, sé que no te lo vas a creer.",
-  "... Pero hay algo que tengo que contarte.",
-  "La cosa es ...",
-  "Tienes magia en ti.",
   "Eres estudiante de magia.",
-  "Sé que suena a locura.",
-  "Lo entiendo.",
-  "Pero en el mundo mágico...",
+  "En el mundo mágico...",
   "cada persona puede controlar un elemento.",
   "Nos llamamos Witchy.",
   "Tú eres pertences a las Witchy.",
-  "Y nosotros te necesitamos.",
-  "Sé que puedo contar contigo.",
   "Verás cada 100 años nace un tipo especial de Witchy.",
   "Estudiantes de magia capaz de controlar todos los elementos.",
-  "Tienes que aprender a controlar los elementos", 
-  "Para eso estás aquí.", 
-  "En Witchy Academia te enseñaremos a usar tus poderes.", 
-  "Para derrotar a los 4 monstruos legendarios.", 
-  "Uno por cada elemento que controles.",
-  "Gracias por ayudarnos.", 
-  "Entra al castillo."
+  "Contamos contigo.", 
+  "Para derrotar al monstruo legendario.", 
+  "Usa las flechas ← →, para moverte", 
+  "Usa la flecha ↑ para saltar y la letra 'a' para atacar", 
+  "Gracias por ayudarnos."
 ];
+

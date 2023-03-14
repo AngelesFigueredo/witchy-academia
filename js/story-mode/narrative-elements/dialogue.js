@@ -41,7 +41,9 @@ class Dialogue {
   drawText() {
     this.ctx.font = "20px arial";
     this.ctx.fillStyle = "black";
-    this.ctx.fillText(this.text[this.count], 75, 60);
+    if(this.count < this.text.length){
+      this.ctx.fillText(this.text[this.count], 75, 60);
+    }
   }
   drawDialogueBox() {
     this.ctx.drawImage(
@@ -53,6 +55,6 @@ class Dialogue {
     );
   }
   stopDialogue(){
-    if(this.count === this.text.length) return true
+    if(this.count  === this.text.length) return true
   }
 }

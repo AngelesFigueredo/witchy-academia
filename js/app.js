@@ -6,9 +6,9 @@ const witchyAcademia = {
   author: "Ángeles Figueredo",
   canvasTag: undefined,
   ctx: undefined,
-  environments: {},
+  environments: { gameOver: false, gameWon: false },
   player: undefined,
-  
+  fps: 30,
 
   canvasSize: {
     w: undefined,
@@ -19,7 +19,6 @@ const witchyAcademia = {
     this.createContext();
     this.setDimensions();
     this.createStart();
-    this.player = new Player()
     this.game();
   },
   createContext() {
@@ -38,7 +37,7 @@ const witchyAcademia = {
     setInterval(() => {
       this.clearAll();
       this.drawAll();
-    }, 30);
+    }, 1 / this.fps);
   },
   createStart() {
     this.environments.start = new Start(this.ctx, this.canvasSize, this.environments);
@@ -47,16 +46,27 @@ const witchyAcademia = {
     if (this.environments.start) {
       this.environments.start.draw();
     } else if (this.environments.dreamSequence) {
-      this.environments.dreamSequence.play()
-
+      this.environments.dreamSequence.play();
     } else if (this.environments.welcome) {
       this.environments.welcome.draw();
+    } else if (this.environments.battleground) {
+      this.environments.battleground.draw();
+      this.restartBattle();
     }
   },
   clearAll() {
     this.ctx.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h);
   },
-
+  restartBattle() {
+    if (this.environments.battleground) {
+      if (this.environments.battleground.lostGame) {
+        document.addEventListener("click", () => {
+          delete this.environments.battleground
+          this.environments.battleground = new Battleground(this.ctx, this.canvasSize, this.environments)
+        });
+      }
+    }
+  },
 };
 
 witchyAcademia.init();

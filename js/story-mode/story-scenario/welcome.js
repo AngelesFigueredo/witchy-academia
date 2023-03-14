@@ -9,13 +9,16 @@ class Welcome {
   init(){
     this.castle = new Background(... this.basicInformation, "img/welcome/castle.png")
     this.dialogue = new Dialogue(this.ctx, welcomeText, "click");
+    this.principal = new Principal(... this.basicInformation)
   }
   draw(){
     this.castle.drawBackground()
     this.dialogue.draw()
-  }
-  createSchoolprincipal(){
-
+    this.principal.drawPrincipal()
+    if(this.dialogue.stopDialogue()){
+      this.enviroments.battleground = new Battleground(...this.basicInformation, this.enviroments);
+      delete this.enviroments.welcome
+    }
   }
   
 }
