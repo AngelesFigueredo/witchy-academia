@@ -73,6 +73,7 @@ class Player extends Character {
     this.ctx.fillText(this.livesCounter, 75, 55);
   }
   draw() {
+    this.ctx.fillRect(this.sprite.pos.x, this.sprite.pos.y, this.sprite.width, this.sprite.height);
     this.cooldownTimer ++
     this.drawLives();
     this.resetFramesCounter();

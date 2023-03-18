@@ -61,7 +61,6 @@ class Battleground {
           this.enemy.loseLives();
           this.player.spells.splice(this.player.spells.indexOf(spell), 1);
           if (this.enemy.isDead()) {
-            console.log("the beast has been killed");
             this.wonGame = true;
           }
         }

@@ -69,6 +69,7 @@ class Enemy extends Character {
     }
   }
   drawEnemy() {
+    
     if (this.spriteShow === "enemy") {
       this.animate(this.framesCounter, this.enemy, 35);
       if (this.create) {
